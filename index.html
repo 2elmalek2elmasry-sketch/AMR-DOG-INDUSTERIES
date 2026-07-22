@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMR DOG INDUSTRIES — Premium Pet Care</title>
-    <!-- Google Fonts -->
+    
+    <!-- SEO & Search Result Branding -->
+    <title>AMR PET INDUSTRIES — Premium Pet Care & Walking</title>
+    <meta name="description" content="Book professional pet walking and care services with AMR PET INDUSTRIES. Pay cash on arrival.">
+    <meta property="og:title" content="AMR PET INDUSTRIES — Premium Pet Care">
+    <meta property="og:description" content="Book 30-min ($25), 60-min ($45) walks, or VIP Day Sitting ($100). Pay in cash on service day.">
+    
+    <!-- Custom Hosted Logo Links -->
+    <meta property="og:image" content="https://ibb.co/bjbTs1CK">
+    <link rel="icon" type="image/png" href="https://ibb.co/bjbTs1CK">
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- EmailJS Library -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
         :root {
             --bg: #0f172a;
             --surface: #1e293b;
-            --surface-card: #334155;
             --primary: #38bdf8;
             --primary-hover: #0284c7;
             --accent: #f43f5e;
@@ -39,12 +46,12 @@
             flex-direction: column;
         }
 
-        /* HEADER & NAV */
+        /* HEADER & LOGO */
         header {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
-            padding: 1.25rem 2rem;
+            padding: 0.85rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -56,11 +63,20 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.25rem;
+            gap: 0.85rem;
+            font-size: 1.15rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
             color: var(--text-main);
+        }
+
+        .brand-logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ffffff;
+            padding: 2px;
+            border: 2px solid var(--primary);
         }
 
         .brand-badge {
@@ -90,21 +106,20 @@
             font-size: 0.9rem;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         nav button.active {
             background: var(--surface);
             color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* MAIN LAYOUT */
         .container {
             max-width: 800px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
             width: 100%;
+            flex: 1;
         }
 
         .hero {
@@ -115,19 +130,14 @@
         .hero h1 {
             font-size: 2.25rem;
             font-weight: 800;
-            letter-spacing: -0.03em;
             margin-bottom: 0.5rem;
             background: linear-gradient(to right, #f8fafc, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
+        .hero p { color: var(--text-muted); }
 
-        /* CASH NOTICE BANNER */
         .cash-banner {
             background: rgba(251, 191, 36, 0.1);
             border: 1px solid rgba(251, 191, 36, 0.3);
@@ -138,11 +148,9 @@
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 2rem;
-            font-size: 0.95rem;
             font-weight: 500;
         }
 
-        /* CARD FORM */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -156,14 +164,9 @@
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
+        .form-group { margin-bottom: 1.25rem; }
 
         label {
             display: block;
@@ -172,7 +175,6 @@
             color: var(--text-muted);
             margin-bottom: 0.4rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
         input, select, textarea {
@@ -183,16 +185,8 @@
             padding: 0.85rem 1rem;
             border-radius: 10px;
             font-size: 0.95rem;
-            transition: all 0.2s;
         }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-        }
-
-        /* PET GRID */
         .pet-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -208,12 +202,6 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            user-select: none;
-        }
-
-        .pet-option:hover {
-            border-color: var(--text-muted);
-            transform: translateY(-2px);
         }
 
         .pet-option.selected {
@@ -221,24 +209,8 @@
             border-color: var(--primary);
         }
 
-        .pet-option .emoji {
-            font-size: 1.8rem;
-            display: block;
-            margin-bottom: 0.3rem;
-        }
+        #other-pet-container { display: none; }
 
-        .pet-option .label {
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        /* DYNAMIC OTHER INPUT */
-        #other-pet-container {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        /* SUMMARY BAR */
         .summary-bar {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -256,7 +228,6 @@
             color: var(--success);
         }
 
-        /* BUTTONS */
         .btn-primary {
             width: 100%;
             background: var(--primary);
@@ -267,13 +238,6 @@
             font-weight: 700;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
         }
 
         .btn-danger {
@@ -285,15 +249,8 @@
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .btn-danger:hover {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        /* APPOINTMENTS LIST */
         .appointment-card {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -303,51 +260,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: fadeIn 0.3s ease;
         }
 
-        .appointment-id {
-            font-size: 0.8rem;
-            color: var(--primary);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        /* POLICY MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
         }
 
-        .appointment-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0.2rem 0;
+        .modal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 550px;
+            width: 100%;
+            padding: 2rem;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
-        .appointment-details {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .empty-state {
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 1.5rem;
             text-align: center;
-            padding: 3rem 1rem;
             color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 3rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 600px) {
-            .pet-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .appointment-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            .btn-danger {
-                width: 100%;
-            }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -355,37 +308,37 @@
 
     <header>
         <div class="brand">
-            🐾 AMR DOG INDUSTRIES
-            <span class="brand-badge">PRO</span>
+            <!-- Custom Hosted Logo -->
+            <img src="https://ibb.co/bjbTs1CK" alt="AMR PET INDUSTRIES Logo" class="brand-logo-img">
+            AMR PET INDUSTRIES
+            <span class="brand-badge">2026</span>
         </div>
         <nav>
-            <button id="nav-book" class="active" onclick="switchTab('book')">Book Walk</button>
+            <button id="nav-book" class="active" onclick="switchTab('book')">Book Service</button>
             <button id="nav-appointments" onclick="switchTab('appointments')">Appointments</button>
         </nav>
     </header>
 
     <div class="container">
         
-        <!-- BOOKING TAB -->
         <div id="tab-book">
             <div class="hero">
-                <h1>Schedule a Pet Service</h1>
-                <p>Select your pet, pick a time slot, and confirm instantly.</p>
+                <h1>Schedule Your Pet Care</h1>
+                <p>Professional pet walking & sitting tailored to your schedule.</p>
             </div>
 
             <div class="cash-banner">
                 <span>💵</span>
-                <span><strong>No online payment required.</strong> Pay cash directly on service day!</span>
+                <span><strong>Pay on Service Day:</strong> Cash is collected directly upon arrival.</span>
             </div>
 
             <div class="card">
                 <form id="bookingForm" onsubmit="submitBooking(event)">
                     
-                    <!-- OWNER INFO -->
                     <div class="form-section-title">1. Owner Information</div>
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" required placeholder="e.g. Alex Smith">
+                        <input type="text" id="fullName" required placeholder="Alex Smith">
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
@@ -398,24 +351,23 @@
 
                     <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
 
-                    <!-- PET SELECTION -->
                     <div class="form-section-title">2. Pet Details</div>
                     <div class="pet-grid">
                         <div class="pet-option selected" onclick="choosePet(this, 'Dog')">
-                            <span class="emoji">🐕</span>
-                            <span class="label">Dog</span>
+                            <span style="font-size:1.8rem; display:block;">🐕</span>
+                            <span style="font-size:0.85rem; font-weight:700;">Dog</span>
                         </div>
                         <div class="pet-option" onclick="choosePet(this, 'Cat')">
-                            <span class="emoji">🐈</span>
-                            <span class="label">Cat</span>
+                            <span style="font-size:1.8rem; display:block;">🐈</span>
+                            <span style="font-size:0.85rem; font-weight:700;">Cat</span>
                         </div>
                         <div class="pet-option" onclick="choosePet(this, 'Rabbit')">
-                            <span class="emoji">🐇</span>
-                            <span class="label">Rabbit</span>
+                            <span style="font-size:1.8rem; display:block;">🐇</span>
+                            <span style="font-size:0.85rem; font-weight:700;">Rabbit</span>
                         </div>
                         <div class="pet-option" onclick="choosePet(this, 'Other')">
-                            <span class="emoji">❓</span>
-                            <span class="label">Other</span>
+                            <span style="font-size:1.8rem; display:block;">❓</span>
+                            <span style="font-size:0.85rem; font-weight:700;">Other</span>
                         </div>
                     </div>
 
@@ -438,14 +390,13 @@
 
                     <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
 
-                    <!-- SERVICE & TIMING -->
                     <div class="form-section-title">3. Schedule & Pricing</div>
                     <div class="form-group">
-                        <label for="serviceType">Select Walk Package</label>
+                        <label for="serviceType">Select Package</label>
                         <select id="serviceType" onchange="calcTotal()">
-                            <option value="20">Quick Walk (30 mins) — $25</option>
-                            <option value="35">Power Walk (60 mins) — $45</option>
-                            <option value="50">VIP Full Day Care & Walk — $100</option>
+                            <option value="25">Quick Walk (30 mins) — $25</option>
+                            <option value="45">Power Walk (60 mins) — $45</option>
+                            <option value="100">VIP Full Day Sitting & Care (1 Day) — $100</option>
                         </select>
                     </div>
 
@@ -454,13 +405,12 @@
                         <input type="datetime-local" id="bookingDate" required>
                     </div>
 
-                    <!-- SUMMARY -->
                     <div class="summary-bar">
                         <div>
                             <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Amount</div>
                             <div style="font-size: 0.85rem; color: var(--text-muted);">Due in Cash on Service Day</div>
                         </div>
-                        <div class="summary-price" id="totalPrice">$20.00</div>
+                        <div class="summary-price" id="totalPrice">$25.00</div>
                     </div>
 
                     <button type="submit" class="btn-primary">Confirm Appointment</button>
@@ -468,7 +418,6 @@
             </div>
         </div>
 
-        <!-- APPOINTMENTS TAB -->
         <div id="tab-appointments" style="display: none;">
             <div class="hero">
                 <h1>My Appointments</h1>
@@ -476,76 +425,74 @@
             </div>
 
             <div class="card">
-                <div id="appointments-container">
-                    <!-- Dynamic rendering -->
-                </div>
+                <div id="appointments-container"></div>
             </div>
         </div>
 
     </div>
 
+    <!-- TERMS MODAL -->
+    <div id="termsModal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 style="color: var(--primary); margin-bottom: 1rem;">Terms & Policies</h2>
+            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                <p style="margin-bottom: 0.8rem;"><strong>1. Payment Terms:</strong> Payment is collected in full (CASH) on the day of service upon arrival.</p>
+                <p style="margin-bottom: 0.8rem;"><strong>2. Cancellation Window:</strong> Clients may cancel or delete their appointment up to <strong>24 hours prior</strong> to the scheduled service time via the Appointments tab without penalty.</p>
+                <p style="margin-bottom: 0.8rem;"><strong>3. Pet Behavior & Safety:</strong> AMR PET INDUSTRIES reserves the right to decline or interrupt service if a pet exhibits uncontrollable aggressive behavior. Owners must disclose any behavioral issues beforehand.</p>
+                <p style="margin-bottom: 0.8rem;"><strong>4. Veterinary Emergency Care:</strong> In the event of a medical emergency during care, AMR PET INDUSTRIES will immediately contact the owner. If required, the pet will be taken to a vet clinic, and the owner agrees to meet us at the veterinary clinic and assume responsibility for care costs.</p>
+            </div>
+            <button class="btn-primary" style="margin-top: 1.5rem;" onclick="closeTerms()">I Understand</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 AMR PET INDUSTRIES. All rights reserved.</p>
+        <p style="margin-top: 0.3rem;"><a onclick="openTerms()">Terms & Policies</a></p>
+    </footer>
+
     <script>
-        // Init EmailJS
-        (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
+        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
 
-        // TAB SWITCHING
+        function openTerms() { document.getElementById('termsModal').style.display = 'flex'; }
+        function closeTerms() { document.getElementById('termsModal').style.display = 'none'; }
+
         function switchTab(tab) {
-            const bookTab = document.getElementById('tab-book');
-            const appointmentsTab = document.getElementById('tab-appointments');
-            const navBook = document.getElementById('nav-book');
-            const navAppointments = document.getElementById('nav-appointments');
-
-            if (tab === 'book') {
-                bookTab.style.display = 'block';
-                appointmentsTab.style.display = 'none';
-                navBook.classList.add('active');
-                navAppointments.classList.remove('active');
-            } else {
-                bookTab.style.display = 'none';
-                appointmentsTab.style.display = 'block';
-                navBook.classList.remove('active');
-                navAppointments.classList.add('active');
-                loadAppointments();
-            }
+            document.getElementById('tab-book').style.display = tab === 'book' ? 'block' : 'none';
+            document.getElementById('tab-appointments').style.display = tab === 'appointments' ? 'block' : 'none';
+            document.getElementById('nav-book').classList.toggle('active', tab === 'book');
+            document.getElementById('nav-appointments').classList.toggle('active', tab === 'appointments');
+            if (tab === 'appointments') loadAppointments();
         }
 
-        // PET SELECTION
         function choosePet(element, type) {
             document.querySelectorAll('.pet-option').forEach(opt => opt.classList.remove('selected'));
             element.classList.add('selected');
             document.getElementById('selectedPetType').value = type;
 
             const otherContainer = document.getElementById('other-pet-container');
-            const otherInput = document.getElementById('otherPetInput');
-
             if (type === 'Other') {
                 otherContainer.style.display = 'block';
-                otherInput.setAttribute('required', 'true');
+                document.getElementById('otherPetInput').setAttribute('required', 'true');
             } else {
                 otherContainer.style.display = 'none';
-                otherInput.removeAttribute('required');
+                document.getElementById('otherPetInput').removeAttribute('required');
             }
         }
 
-        // PRICE CALCULATOR
         function calcTotal() {
             const val = document.getElementById('serviceType').value;
             document.getElementById('totalPrice').innerText = '$' + val + '.00';
         }
 
-        // SUBMIT BOOKING
         function submitBooking(e) {
             e.preventDefault();
-
-            const serviceIdNum = Math.floor(1000 + Math.random() * 9000);
+            const idNum = Math.floor(1000 + Math.random() * 9000);
             const petTypeVal = document.getElementById('selectedPetType').value;
             const finalPetType = petTypeVal === 'Other' ? document.getElementById('otherPetInput').value : petTypeVal;
 
             const record = {
-                id: serviceIdNum,
-                subject: `bussiness service (${serviceIdNum})`,
+                id: idNum,
+                subject: `bussiness service (${idNum})`,
                 ownerName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
                 address: document.getElementById('address').value,
@@ -556,77 +503,31 @@
                 dateTime: document.getElementById('bookingDate').value
             };
 
-            // 1. Save locally for Appointments Tab
             let current = JSON.parse(localStorage.getItem('amr_bookings')) || [];
             current.push(record);
             localStorage.setItem('amr_bookings', JSON.stringify(current));
 
-            // 2. Format precise email payload for omarmoustafaglelah@gmail.com
-            const emailMessage = `
-========================================
-NEW SERVICE BOOKING - AMR DOG INDUSTRIES
-========================================
-
-SUBJECT: ${record.subject}
-
-CUSTOMER INFORMATION:
-- Name: ${record.ownerName}
-- Email: ${record.email}
-- Pickup Address: ${record.address}
-
-PET DETAILS:
-- Pet Type: ${record.petType}
-- Pet Name / Breed: ${record.petName}
-- Special Instructions: ${record.notes}
-
-SCHEDULE & PAYMENT:
-- Date & Time: ${record.dateTime}
-- Total Price: ${record.price}
-- Payment Terms: Cash on Service Day
-
-========================================
-Target Inbox: omarmoustafaglelah@gmail.com
-            `;
-
-            console.log("SENDING EMAIL NOTIFICATION:\n", emailMessage);
-
-            /*
-            // Optional Live Trigger via EmailJS
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                subject: record.subject,
-                to_email: "omarmoustafaglelah@gmail.com",
-                message: emailMessage
-            });
-            */
-
-            alert(`Appointment Confirmed! Service ID: ${record.subject}. Payment will be collected in Cash on arrival.`);
+            alert(`Appointment Confirmed! Reference: ${record.subject}. Cash payment on arrival.`);
             document.getElementById('bookingForm').reset();
             switchTab('appointments');
         }
 
-        // RENDER APPOINTMENTS
         function loadAppointments() {
             const container = document.getElementById('appointments-container');
             const data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
 
             if (data.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📅</span>
-                        <p>No appointments booked yet.</p>
-                    </div>
-                `;
+                container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">No active appointments found.</p>`;
                 return;
             }
 
             container.innerHTML = data.map((item, index) => `
                 <div class="appointment-card">
                     <div>
-                        <div class="appointment-id">${item.subject}</div>
-                        <div class="appointment-title">${item.petName} (${item.petType})</div>
-                        <div class="appointment-details">
-                            📍 ${item.address}<br>
-                            🕒 ${item.dateTime}<br>
+                        <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${item.subject}</div>
+                        <div style="font-size:1.1rem; font-weight:700;">${item.petName} (${item.petType})</div>
+                        <div style="font-size:0.85rem; color:var(--text-muted);">
+                            📍 ${item.address} | 🕒 ${item.dateTime}<br>
                             💵 ${item.price} (Cash on arrival)
                         </div>
                     </div>
@@ -635,9 +536,8 @@ Target Inbox: omarmoustafaglelah@gmail.com
             `).join('');
         }
 
-        // CANCEL APPOINTMENT
         function cancelAppointment(idx) {
-            if (confirm("Are you sure you want to cancel this appointment?")) {
+            if (confirm("Cancel this appointment?")) {
                 let data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
                 data.splice(idx, 1);
                 localStorage.setItem('amr_bookings', JSON.stringify(data));
