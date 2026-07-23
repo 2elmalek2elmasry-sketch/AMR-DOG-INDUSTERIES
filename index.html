@@ -537,6 +537,7 @@
     </footer>
 
     <!-- Firebase SDK Modules -->
+    <!-- Firebase SDK Modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -588,7 +589,6 @@
                 document.getElementById('app-content').style.display = 'block';
                 document.getElementById('user-profile').style.display = 'flex';
                 
-                // Fallback avatar if standard Google image isn't available
                 const defaultAvatar = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || user.email) + "&background=0284c7&color=fff";
                 document.getElementById('user-img').src = user.photoURL || defaultAvatar;
                 document.getElementById('user-display-name').innerText = user.displayName || user.email.split('@')[0];
@@ -631,7 +631,7 @@
             signInWithPopup(auth, googleProvider).catch(err => alert("Google Sign-In failed: " + err.message));
         };
 
-        // EMAIL SIGN IN & SIGN UP
+        // EMAIL SIGN IN & SIGN UP (WITH BETTER ERROR HANDLING)
         window.handleEmailAuth = async (e) => {
             e.preventDefault();
             const email = document.getElementById('authEmail').value;
@@ -656,13 +656,26 @@
 
                     alert("Account created successfully!");
                 } catch (err) {
-                    alert("Sign Up Error: " + err.message);
+                    if (err.code === 'auth/email-already-in-use') {
+                        alert("An account with this email already exists. Try signing in!");
+                        switchAuthMode('signin');
+                    } else {
+                        alert("Sign Up Error: " + err.message);
+                    }
                 }
             } else {
                 try {
                     await signInWithEmailAndPassword(auth, email, password);
                 } catch (err) {
-                    alert("Sign In Error: " + err.message);
+                    // Catch missing/unregistered accounts
+                    if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+                        alert("Account not found. Try signing up!");
+                        switchAuthMode('signup'); // Automatically switch tab to sign up for them
+                    } else if (err.code === 'auth/wrong-password') {
+                        alert("Incorrect password. Please try again.");
+                    } else {
+                        alert("Sign In Error: " + err.message);
+                    }
                 }
             }
         };
