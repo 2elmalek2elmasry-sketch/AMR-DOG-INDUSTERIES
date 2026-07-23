@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO & Search Result Branding -->
     <title>AMR PET INDUSTRIES — Premium Pet Care & Walking</title>
     <meta name="description" content="Book professional pet walking and care services with AMR PET INDUSTRIES. Pay cash on arrival.">
-    <meta property="og:title" content="AMR PET INDUSTRIES — Premium Pet Care">
-    <meta property="og:description" content="Book 30-min ($25), 60-min ($45) walks, or VIP Day Sitting ($100). Pay in cash on service day.">
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
+
     <style>
         :root {
             --bg: #0f172a;
@@ -42,7 +38,6 @@
             flex-direction: column;
         }
 
-        /* HEADER & BRAND ICON */
         header {
             background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(12px);
@@ -65,7 +60,6 @@
             color: var(--text-main);
         }
 
-        /* CSS Icon Replacement for Logo */
         .brand-icon-box {
             width: 40px;
             height: 40px;
@@ -84,13 +78,45 @@
             fill: #ffffff;
         }
 
-        .brand-badge {
-            background: linear-gradient(135deg, var(--primary), #818cf8);
+        .user-auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-google {
+            background: #ffffff;
             color: #000;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-weight: 800;
+            border: none;
+            padding: 0.65rem 1.2rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-google:hover {
+            background: #f1f5f9;
+        }
+
+        .user-profile {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
         }
 
         nav {
@@ -143,19 +169,6 @@
 
         .hero p { color: var(--text-muted); }
 
-        .cash-banner {
-            background: rgba(251, 191, 36, 0.1);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            color: var(--warning);
-            padding: 1rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-            font-weight: 500;
-        }
-
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -190,6 +203,11 @@
             padding: 0.85rem 1rem;
             border-radius: 10px;
             font-size: 0.95rem;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
         }
 
         .pet-grid {
@@ -238,11 +256,17 @@
             background: var(--primary);
             color: #000;
             border: none;
-            padding: 1rem;
+            padding: 0.9rem;
             font-size: 1rem;
             font-weight: 700;
             border-radius: 10px;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            color: #fff;
         }
 
         .btn-danger {
@@ -267,29 +291,58 @@
             align-items: center;
         }
 
-        /* POLICY MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
+        /* Auth Modal / Box Styling */
+        .auth-card {
+            max-width: 420px;
+            margin: 0 auto;
         }
 
-        .modal-card {
-            background: var(--surface);
+        .auth-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--bg);
+            padding: 0.3rem;
+            border-radius: 10px;
             border: 1px solid var(--border);
-            border-radius: 16px;
-            max-width: 550px;
-            width: 100%;
-            padding: 2rem;
-            position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-tabs button {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.6rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .auth-tabs button.active {
+            background: var(--surface);
+            color: var(--primary);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .divider span {
+            padding: 0 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
         footer {
@@ -300,279 +353,440 @@
             font-size: 0.85rem;
             margin-top: 3rem;
         }
-
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="brand">
-            <!-- SVG Icon replacing image logo -->
             <div class="brand-icon-box">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 12c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3zm-4.5-1.5c1.24 0 2.25-1.01 2.25-2.25S8.74 6 7.5 6 5.25 7.01 5.25 8.25 6.26 10.5 7.5 10.5zm9 0c1.24 0 2.25-1.01 2.25-2.25S17.74 6 16.5 6s-2.25 1.01-2.25 2.25 1.01 2.25 2.25 2.25zM12 13.5c-3.2 0-6 1.8-6 4.5v1.5h12v-1.5c0-2.7-2.8-4.5-6-4.5z"/>
                 </svg>
             </div>
             AMR PET INDUSTRIES
-            <span class="brand-badge">2026</span>
         </div>
-        <nav>
-            <button id="nav-book" class="active" onclick="switchTab('book')">Book Service</button>
-            <button id="nav-appointments" onclick="switchTab('appointments')">Appointments</button>
-        </nav>
+
+        <div class="user-auth-section">
+            <div id="user-profile" class="user-profile">
+                <img id="user-img" class="user-avatar" src="https://via.placeholder.com/36" alt="User">
+                <span id="user-display-name" style="font-weight: 600; font-size: 0.9rem;"></span>
+                <button class="btn-danger" style="padding: 0.35rem 0.7rem; font-size: 0.75rem;" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
     </header>
 
     <div class="container">
         
-        <div id="tab-book">
+        <!-- LOGIN / SIGN UP GATE -->
+        <div id="login-gate">
             <div class="hero">
-                <h1>Schedule Your Pet Care</h1>
-                <p>Professional pet walking & sitting tailored to your schedule.</p>
+                <h1>Welcome to AMR PET INDUSTRIES</h1>
+                <p>Sign in or create an account to schedule pet care appointments.</p>
             </div>
 
-            <div class="cash-banner">
-                <span>💵</span>
-                <span><strong>Pay on Service Day:</strong> Cash is collected directly upon arrival.</span>
-            </div>
+            <div class="card auth-card">
+                <div class="auth-tabs">
+                    <button id="tab-btn-signin" class="active" onclick="switchAuthMode('signin')">Sign In</button>
+                    <button id="tab-btn-signup" onclick="switchAuthMode('signup')">Sign Up</button>
+                </div>
 
-            <div class="card">
-                <form id="bookingForm" onsubmit="submitBooking(event)">
-                    
-                    <div class="form-section-title">1. Owner Information</div>
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" required placeholder="Alex Smith">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" required placeholder="alex@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Pickup Address</label>
-                        <input type="text" id="address" required placeholder="123 Ocean Avenue, Apt 4B">
-                    </div>
+                <!-- Google Auth Button -->
+                <button class="btn-google" onclick="loginWithGoogle()">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                    Continue with Google
+                </button>
 
-                    <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
+                <div class="divider"><span>OR EMAIL</span></div>
 
-                    <div class="form-section-title">2. Pet Details</div>
-                    <div class="pet-grid">
-                        <div class="pet-option selected" onclick="choosePet(this, 'Dog')">
-                            <span style="font-size:1.8rem; display:block;">🐕</span>
-                            <span style="font-size:0.85rem; font-weight:700;">Dog</span>
-                        </div>
-                        <div class="pet-option" onclick="choosePet(this, 'Cat')">
-                            <span style="font-size:1.8rem; display:block;">🐈</span>
-                            <span style="font-size:0.85rem; font-weight:700;">Cat</span>
-                        </div>
-                        <div class="pet-option" onclick="choosePet(this, 'Rabbit')">
-                            <span style="font-size:1.8rem; display:block;">🐇</span>
-                            <span style="font-size:0.85rem; font-weight:700;">Rabbit</span>
-                        </div>
-                        <div class="pet-option" onclick="choosePet(this, 'Other')">
-                            <span style="font-size:1.8rem; display:block;">❓</span>
-                            <span style="font-size:0.85rem; font-weight:700;">Other</span>
-                        </div>
-                    </div>
-
-                    <input type="hidden" id="selectedPetType" value="Dog">
-
-                    <div class="form-group" id="other-pet-container">
-                        <label for="otherPetInput">Specify Pet Type</label>
-                        <input type="text" id="otherPetInput" placeholder="e.g., Parrot, Lizard, Hamster">
+                <!-- EMAIL FORM -->
+                <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
+                    <div id="signup-name-group" class="form-group" style="display: none;">
+                        <label for="authName">Full Name</label>
+                        <input type="text" id="authName" placeholder="John Doe">
                     </div>
 
                     <div class="form-group">
-                        <label for="petName">Pet Name & Breed</label>
-                        <input type="text" id="petName" required placeholder="e.g. Bruno (Husky)">
+                        <label for="authEmail">Email Address</label>
+                        <input type="email" id="authEmail" required placeholder="name@example.com">
                     </div>
 
                     <div class="form-group">
-                        <label for="petNotes">Special Instructions / Notes</label>
-                        <textarea id="petNotes" rows="3" placeholder="Needs extra water, timid around big dogs..."></textarea>
+                        <label for="authPassword">Password</label>
+                        <input type="password" id="authPassword" required minlength="6" placeholder="••••••••">
                     </div>
 
-                    <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
-
-                    <div class="form-section-title">3. Schedule & Pricing</div>
-                    <div class="form-group">
-                        <label for="serviceType">Select Package</label>
-                        <select id="serviceType" onchange="calcTotal()">
-                            <option value="25">Quick Walk (30 mins) — $25</option>
-                            <option value="45">Power Walk (60 mins) — $45</option>
-                            <option value="100">VIP Full Day Sitting & Care (1 Day) — $100</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bookingDate">Date & Arrival Time</label>
-                        <input type="datetime-local" id="bookingDate" required>
-                    </div>
-
-                    <div class="summary-bar">
-                        <div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Amount</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted);">Due in Cash on Service Day</div>
-                        </div>
-                        <div class="summary-price" id="totalPrice">$25.00</div>
-                    </div>
-
-                    <button type="submit" class="btn-primary">Confirm Appointment</button>
+                    <button type="submit" id="authSubmitBtn" class="btn-primary">Sign In</button>
                 </form>
             </div>
         </div>
 
-        <div id="tab-appointments" style="display: none;">
-            <div class="hero">
-                <h1>My Appointments</h1>
-                <p>Manage active bookings or cancel a service below.</p>
+        <!-- MAIN APP CONTENT -->
+        <div id="app-content" style="display: none;">
+            
+            <nav style="margin-bottom: 2rem;">
+                <button id="nav-book" class="active" onclick="switchTab('book')">Book Service</button>
+                <button id="nav-appointments" onclick="switchTab('appointments')">My Appointments</button>
+            </nav>
+
+            <div id="tab-book">
+                <div class="hero">
+                    <h1>Schedule Your Pet Care</h1>
+                    <p>Professional pet walking & sitting tailored to your schedule.</p>
+                </div>
+
+                <div class="card">
+                    <form id="bookingForm" onsubmit="submitBooking(event)">
+                        
+                        <div class="form-section-title">1. Owner Information</div>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" required placeholder="Alex Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Pickup Address</label>
+                            <input type="text" id="address" required placeholder="123 Ocean Avenue, Apt 4B">
+                        </div>
+
+                        <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
+
+                        <div class="form-section-title">2. Pet Details</div>
+                        <div class="pet-grid">
+                            <div class="pet-option selected" onclick="choosePet(this, 'Dog')">
+                                <span style="font-size:1.8rem; display:block;">🐕</span>
+                                <span style="font-size:0.85rem; font-weight:700;">Dog</span>
+                            </div>
+                            <div class="pet-option" onclick="choosePet(this, 'Cat')">
+                                <span style="font-size:1.8rem; display:block;">🐈</span>
+                                <span style="font-size:0.85rem; font-weight:700;">Cat</span>
+                            </div>
+                            <div class="pet-option" onclick="choosePet(this, 'Rabbit')">
+                                <span style="font-size:1.8rem; display:block;">🐇</span>
+                                <span style="font-size:0.85rem; font-weight:700;">Rabbit</span>
+                            </div>
+                            <div class="pet-option" onclick="choosePet(this, 'Other')">
+                                <span style="font-size:1.8rem; display:block;">❓</span>
+                                <span style="font-size:0.85rem; font-weight:700;">Other</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="selectedPetType" value="Dog">
+
+                        <div class="form-group" id="other-pet-container">
+                            <label for="otherPetInput">Specify Pet Type</label>
+                            <input type="text" id="otherPetInput" placeholder="e.g., Parrot, Lizard, Hamster">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="petName">Pet Name & Breed</label>
+                            <input type="text" id="petName" required placeholder="e.g. Bruno (Husky)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="petNotes">Special Instructions / Notes</label>
+                            <textarea id="petNotes" rows="3" placeholder="Needs extra water, timid around big dogs..."></textarea>
+                        </div>
+
+                        <hr style="border: none; border-top: 1px solid var(--border); margin: 1.5rem 0;">
+
+                        <div class="form-section-title">3. Schedule & Pricing</div>
+                        <div class="form-group">
+                            <label for="serviceType">Select Package</label>
+                            <select id="serviceType" onchange="calcTotal()">
+                                <option value="25">Quick Walk (30 mins) — $25</option>
+                                <option value="45">Power Walk (60 mins) — $45</option>
+                                <option value="100">VIP Full Day Sitting & Care (1 Day) — $100</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingDate">Date & Arrival Time</label>
+                            <input type="datetime-local" id="bookingDate" required>
+                        </div>
+
+                        <div class="summary-bar">
+                            <div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Total Amount</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Due in Cash on Service Day</div>
+                            </div>
+                            <div class="summary-price" id="totalPrice">$25.00</div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Confirm Appointment</button>
+                    </form>
+                </div>
             </div>
 
-            <div class="card">
-                <div id="appointments-container"></div>
+            <div id="tab-appointments" style="display: none;">
+                <div class="hero">
+                    <h1>My Appointments</h1>
+                    <p>Your private bookings saved to your account.</p>
+                </div>
+
+                <div class="card">
+                    <div id="appointments-container">Loading your appointments...</div>
+                </div>
             </div>
+
         </div>
 
-    </div>
-
-    <!-- TERMS MODAL -->
-    <div id="termsModal" class="modal-overlay">
-        <div class="modal-card">
-            <h2 style="color: var(--primary); margin-bottom: 1rem;">Terms & Policies</h2>
-            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
-                <p style="margin-bottom: 0.8rem;"><strong>1. Payment Terms:</strong> Payment is collected in full (CASH) on the day of service upon arrival.</p>
-                <p style="margin-bottom: 0.8rem;"><strong>2. Cancellation Window:</strong> Clients may cancel or delete their appointment up to <strong>24 hours prior</strong> to the scheduled service time via the Appointments tab without penalty.</p>
-                <p style="margin-bottom: 0.8rem;"><strong>3. Pet Behavior & Safety:</strong> AMR PET INDUSTRIES reserves the right to decline or interrupt service if a pet exhibits uncontrollable aggressive behavior. Owners must disclose any behavioral issues beforehand.</p>
-                <p style="margin-bottom: 0.8rem;"><strong>4. Veterinary Emergency Care:</strong> In the event of a medical emergency during care, AMR PET INDUSTRIES will immediately contact the owner. If required, the pet will be taken to a vet clinic, and the owner agrees to meet us at the veterinary clinic and assume responsibility for care costs.</p>
-            </div>
-            <button class="btn-primary" style="margin-top: 1.5rem;" onclick="closeTerms()">I Understand</button>
-        </div>
     </div>
 
     <footer>
         <p>© 2026 AMR PET INDUSTRIES. All rights reserved.</p>
-        <p style="margin-top: 0.3rem;"><a onclick="openTerms()">Terms & Policies</a></p>
     </footer>
 
-    <script>
-// 1. Fill in your EmailJS credentials here:
-const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; 
-const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; 
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    <!-- Firebase SDK Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            signOut, 
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            query, 
+            where, 
+            getDocs, 
+            deleteDoc, 
+            doc,
+            setDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-(function() { 
-    if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-        emailjs.init(EMAILJS_PUBLIC_KEY); 
-    }
-})();
+        // Your exact Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyB-7B5w2YcGhe-qEcGEpKKQ_rzmEA2yI84",
+            authDomain: "amr-pet-industries.firebaseapp.com",
+            projectId: "amr-pet-industries",
+            storageBucket: "amr-pet-industries.firebasestorage.app",
+            messagingSenderId: "705079124425",
+            appId: "1:705079124425:web:44bb034b13dbd968a98818",
+            measurementId: "G-1V4MG5Z8LE"
+        };
 
-function openTerms() { document.getElementById('termsModal').style.display = 'flex'; }
-function closeTerms() { document.getElementById('termsModal').style.display = 'none'; }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const googleProvider = new GoogleAuthProvider();
 
-function switchTab(tab) {
-    document.getElementById('tab-book').style.display = tab === 'book' ? 'block' : 'none';
-    document.getElementById('tab-appointments').style.display = tab === 'appointments' ? 'block' : 'none';
-    document.getElementById('nav-book').classList.toggle('active', tab === 'book');
-    document.getElementById('nav-appointments').classList.toggle('active', tab === 'appointments');
-    if (tab === 'appointments') loadAppointments();
-}
+        let currentUser = null;
+        let authMode = 'signin'; // 'signin' or 'signup'
 
-function choosePet(element, type) {
-    document.querySelectorAll('.pet-option').forEach(opt => opt.classList.remove('selected'));
-    element.classList.add('selected');
-    document.getElementById('selectedPetType').value = type;
+        // AUTH STATE LISTENER
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('login-gate').style.display = 'none';
+                document.getElementById('app-content').style.display = 'block';
+                document.getElementById('user-profile').style.display = 'flex';
+                
+                // Fallback avatar if standard Google image isn't available
+                const defaultAvatar = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || user.email) + "&background=0284c7&color=fff";
+                document.getElementById('user-img').src = user.photoURL || defaultAvatar;
+                document.getElementById('user-display-name').innerText = user.displayName || user.email.split('@')[0];
+                document.getElementById('fullName').value = user.displayName || '';
+                
+                loadAppointments();
+            } else {
+                currentUser = null;
+                document.getElementById('login-gate').style.display = 'block';
+                document.getElementById('app-content').style.display = 'none';
+                document.getElementById('user-profile').style.display = 'none';
+            }
+        });
 
-    const otherContainer = document.getElementById('other-pet-container');
-    if (type === 'Other') {
-        otherContainer.style.display = 'block';
-        document.getElementById('otherPetInput').setAttribute('required', 'true');
-    } else {
-        otherContainer.style.display = 'none';
-        document.getElementById('otherPetInput').removeAttribute('required');
-    }
-}
+        // AUTH TOGGLE TABS (SIGN IN vs SIGN UP)
+        window.switchAuthMode = (mode) => {
+            authMode = mode;
+            const nameGroup = document.getElementById('signup-name-group');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            const tabSignin = document.getElementById('tab-btn-signin');
+            const tabSignup = document.getElementById('tab-btn-signup');
 
-function calcTotal() {
-    const val = document.getElementById('serviceType').value;
-    document.getElementById('totalPrice').innerText = '$' + val + '.00';
-}
+            if (mode === 'signup') {
+                nameGroup.style.display = 'block';
+                document.getElementById('authName').setAttribute('required', 'true');
+                submitBtn.innerText = 'Create Account';
+                tabSignup.classList.add('active');
+                tabSignin.classList.remove('active');
+            } else {
+                nameGroup.style.display = 'none';
+                document.getElementById('authName').removeAttribute('required');
+                submitBtn.innerText = 'Sign In';
+                tabSignin.classList.add('active');
+                tabSignup.classList.remove('active');
+            }
+        };
 
-function submitBooking(e) {
-    e.preventDefault();
-    const idNum = Math.floor(1000 + Math.random() * 9000);
-    const petTypeVal = document.getElementById('selectedPetType').value;
-    const finalPetType = petTypeVal === 'Other' ? document.getElementById('otherPetInput').value : petTypeVal;
+        // GOOGLE SIGN IN
+        window.loginWithGoogle = () => {
+            signInWithPopup(auth, googleProvider).catch(err => alert("Google Sign-In failed: " + err.message));
+        };
 
-    const record = {
-        id: idNum,
-        subject: `bussiness service (${idNum})`,
-        ownerName: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        address: document.getElementById('address').value,
-        petType: finalPetType,
-        petName: document.getElementById('petName').value,
-        notes: document.getElementById('petNotes').value || 'None',
-        price: '$' + document.getElementById('serviceType').value + '.00',
-        dateTime: document.getElementById('bookingDate').value
-    };
+        // EMAIL SIGN IN & SIGN UP
+        window.handleEmailAuth = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
 
-    // Save locally to browser
-    let current = JSON.parse(localStorage.getItem('amr_bookings')) || [];
-    current.push(record);
-    localStorage.setItem('amr_bookings', JSON.stringify(current));
+            if (authMode === 'signup') {
+                const name = document.getElementById('authName').value;
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
 
-    // Send Email via EmailJS
-    if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, record)
-            .then(function(response) {
-                console.log('EMAIL SENT SUCCESSFULLY!', response.status, response.text);
-            }, function(error) {
-                console.log('EMAIL FAILED...', error);
-            });
-    }
+                    // Update Auth Profile Display Name
+                    await updateProfile(user, { displayName: name });
 
-    alert(`Appointment Confirmed! Reference: ${record.subject}. Cash payment on arrival.`);
-    document.getElementById('bookingForm').reset();
-    switchTab('appointments');
-}
+                    // Save user profile to Firestore
+                    await setDoc(doc(db, "users", user.uid), {
+                        uid: user.uid,
+                        name: name,
+                        email: email,
+                        createdAt: new Date()
+                    });
 
-function loadAppointments() {
-    const container = document.getElementById('appointments-container');
-    const data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
+                    alert("Account created successfully!");
+                } catch (err) {
+                    alert("Sign Up Error: " + err.message);
+                }
+            } else {
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } catch (err) {
+                    alert("Sign In Error: " + err.message);
+                }
+            }
+        };
 
-    if (data.length === 0) {
-        container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">No active appointments found.</p>`;
-        return;
-    }
+        // LOGOUT
+        window.logout = () => {
+            signOut(auth);
+        };
 
-    container.innerHTML = data.map((item, index) => `
-        <div class="appointment-card">
-            <div>
-                <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${item.subject}</div>
-                <div style="font-size:1.1rem; font-weight:700;">${item.petName} (${item.petType})</div>
-                <div style="font-size:0.85rem; color:var(--text-muted);">
-                    📍 ${item.address} | 🕒 ${item.dateTime}<br>
-                    💵 ${item.price} (Cash on arrival)
-                </div>
-            </div>
-            <button class="btn-danger" onclick="cancelAppointment(${index})">Delete / Cancel</button>
-        </div>
-    `).join('');
-}
+        // NAVIGATION TABS
+        window.switchTab = (tab) => {
+            document.getElementById('tab-book').style.display = tab === 'book' ? 'block' : 'none';
+            document.getElementById('tab-appointments').style.display = tab === 'appointments' ? 'block' : 'none';
+            document.getElementById('nav-book').classList.toggle('active', tab === 'book');
+            document.getElementById('nav-appointments').classList.toggle('active', tab === 'appointments');
+            if (tab === 'appointments') loadAppointments();
+        };
 
-function cancelAppointment(idx) {
-    if (confirm("Cancel this appointment?")) {
-        let data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
-        data.splice(idx, 1);
-        localStorage.setItem('amr_bookings', JSON.stringify(data));
-        loadAppointments();
-    }
-}
+        // PET SELECTION UI
+        window.choosePet = (element, type) => {
+            document.querySelectorAll('.pet-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('selectedPetType').value = type;
+
+            const otherContainer = document.getElementById('other-pet-container');
+            if (type === 'Other') {
+                otherContainer.style.display = 'block';
+                document.getElementById('otherPetInput').setAttribute('required', 'true');
+            } else {
+                otherContainer.style.display = 'none';
+                document.getElementById('otherPetInput').removeAttribute('required');
+            }
+        };
+
+        // PRICE CALCULATOR
+        window.calcTotal = () => {
+            const val = document.getElementById('serviceType').value;
+            document.getElementById('totalPrice').innerText = '$' + val + '.00';
+        };
+
+        // SUBMIT BOOKING
+        window.submitBooking = async (e) => {
+            e.preventDefault();
+            if (!currentUser) return alert("Please sign in first!");
+
+            const idNum = Math.floor(1000 + Math.random() * 9000);
+            const petTypeVal = document.getElementById('selectedPetType').value;
+            const finalPetType = petTypeVal === 'Other' ? document.getElementById('otherPetInput').value : petTypeVal;
+
+            const record = {
+                uid: currentUser.uid,
+                subject: `bussiness service (${idNum})`,
+                ownerName: document.getElementById('fullName').value,
+                email: currentUser.email,
+                address: document.getElementById('address').value,
+                petType: finalPetType,
+                petName: document.getElementById('petName').value,
+                notes: document.getElementById('petNotes').value || 'None',
+                price: '$' + document.getElementById('serviceType').value + '.00',
+                dateTime: document.getElementById('bookingDate').value,
+                createdAt: new Date()
+            };
+
+            try {
+                await addDoc(collection(db, "bookings"), record);
+                alert(`Appointment Confirmed! Reference: ${record.subject}. Cash payment on arrival.`);
+                document.getElementById('bookingForm').reset();
+                switchTab('appointments');
+            } catch (err) {
+                alert("Error saving booking: " + err.message);
+            }
+        };
+
+        // LOAD USER APPOINTMENTS
+        async function loadAppointments() {
+            if (!currentUser) return;
+            const container = document.getElementById('appointments-container');
+            container.innerHTML = "Loading your appointments...";
+
+            try {
+                const q = query(collection(db, "bookings"), where("uid", "==", currentUser.uid));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">You have no active appointments.</p>`;
+                    return;
+                }
+
+                container.innerHTML = "";
+                querySnapshot.forEach((docSnap) => {
+                    const item = docSnap.data();
+                    const docId = docSnap.id;
+
+                    const card = document.createElement('div');
+                    card.className = "appointment-card";
+                    card.innerHTML = `
+                        <div>
+                            <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${item.subject}</div>
+                            <div style="font-size:1.1rem; font-weight:700;">${item.petName} (${item.petType})</div>
+                            <div style="font-size:0.85rem; color:var(--text-muted);">
+                                📍 ${item.address} | 🕒 ${item.dateTime}<br>
+                                💵 ${item.price} (Cash on arrival)
+                            </div>
+                        </div>
+                        <button class="btn-danger" onclick="deleteBooking('${docId}')">Delete / Cancel</button>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                container.innerHTML = "Failed to load appointments.";
+            }
+        }
+
+        // DELETE APPOINTMENT
+        window.deleteBooking = async (docId) => {
+            if (confirm("Cancel this appointment?")) {
+                try {
+                    await deleteDoc(doc(db, "bookings", docId));
+                    loadAppointments();
+                } catch (err) {
+                    alert("Failed to delete booking.");
+                }
+            }
+        };
     </script>
 </body>
 </html>
