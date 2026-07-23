@@ -460,99 +460,119 @@
     </footer>
 
     <script>
-        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
+// 1. Fill in your EmailJS credentials here:
+const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; 
+const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; 
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
-        function openTerms() { document.getElementById('termsModal').style.display = 'flex'; }
-        function closeTerms() { document.getElementById('termsModal').style.display = 'none'; }
+(function() { 
+    if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+        emailjs.init(EMAILJS_PUBLIC_KEY); 
+    }
+})();
 
-        function switchTab(tab) {
-            document.getElementById('tab-book').style.display = tab === 'book' ? 'block' : 'none';
-            document.getElementById('tab-appointments').style.display = tab === 'appointments' ? 'block' : 'none';
-            document.getElementById('nav-book').classList.toggle('active', tab === 'book');
-            document.getElementById('nav-appointments').classList.toggle('active', tab === 'appointments');
-            if (tab === 'appointments') loadAppointments();
-        }
+function openTerms() { document.getElementById('termsModal').style.display = 'flex'; }
+function closeTerms() { document.getElementById('termsModal').style.display = 'none'; }
 
-        function choosePet(element, type) {
-            document.querySelectorAll('.pet-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            document.getElementById('selectedPetType').value = type;
+function switchTab(tab) {
+    document.getElementById('tab-book').style.display = tab === 'book' ? 'block' : 'none';
+    document.getElementById('tab-appointments').style.display = tab === 'appointments' ? 'block' : 'none';
+    document.getElementById('nav-book').classList.toggle('active', tab === 'book');
+    document.getElementById('nav-appointments').classList.toggle('active', tab === 'appointments');
+    if (tab === 'appointments') loadAppointments();
+}
 
-            const otherContainer = document.getElementById('other-pet-container');
-            if (type === 'Other') {
-                otherContainer.style.display = 'block';
-                document.getElementById('otherPetInput').setAttribute('required', 'true');
-            } else {
-                otherContainer.style.display = 'none';
-                document.getElementById('otherPetInput').removeAttribute('required');
-            }
-        }
+function choosePet(element, type) {
+    document.querySelectorAll('.pet-option').forEach(opt => opt.classList.remove('selected'));
+    element.classList.add('selected');
+    document.getElementById('selectedPetType').value = type;
 
-        function calcTotal() {
-            const val = document.getElementById('serviceType').value;
-            document.getElementById('totalPrice').innerText = '$' + val + '.00';
-        }
+    const otherContainer = document.getElementById('other-pet-container');
+    if (type === 'Other') {
+        otherContainer.style.display = 'block';
+        document.getElementById('otherPetInput').setAttribute('required', 'true');
+    } else {
+        otherContainer.style.display = 'none';
+        document.getElementById('otherPetInput').removeAttribute('required');
+    }
+}
 
-        function submitBooking(e) {
-            e.preventDefault();
-            const idNum = Math.floor(1000 + Math.random() * 9000);
-            const petTypeVal = document.getElementById('selectedPetType').value;
-            const finalPetType = petTypeVal === 'Other' ? document.getElementById('otherPetInput').value : petTypeVal;
+function calcTotal() {
+    const val = document.getElementById('serviceType').value;
+    document.getElementById('totalPrice').innerText = '$' + val + '.00';
+}
 
-            const record = {
-                id: idNum,
-                subject: `bussiness service (${idNum})`,
-                ownerName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                address: document.getElementById('address').value,
-                petType: finalPetType,
-                petName: document.getElementById('petName').value,
-                notes: document.getElementById('petNotes').value || 'None',
-                price: '$' + document.getElementById('serviceType').value + '.00',
-                dateTime: document.getElementById('bookingDate').value
-            };
+function submitBooking(e) {
+    e.preventDefault();
+    const idNum = Math.floor(1000 + Math.random() * 9000);
+    const petTypeVal = document.getElementById('selectedPetType').value;
+    const finalPetType = petTypeVal === 'Other' ? document.getElementById('otherPetInput').value : petTypeVal;
 
-            let current = JSON.parse(localStorage.getItem('amr_bookings')) || [];
-            current.push(record);
-            localStorage.setItem('amr_bookings', JSON.stringify(current));
+    const record = {
+        id: idNum,
+        subject: `bussiness service (${idNum})`,
+        ownerName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value,
+        petType: finalPetType,
+        petName: document.getElementById('petName').value,
+        notes: document.getElementById('petNotes').value || 'None',
+        price: '$' + document.getElementById('serviceType').value + '.00',
+        dateTime: document.getElementById('bookingDate').value
+    };
 
-            alert(`Appointment Confirmed! Reference: ${record.subject}. Cash payment on arrival.`);
-            document.getElementById('bookingForm').reset();
-            switchTab('appointments');
-        }
+    // Save locally to browser
+    let current = JSON.parse(localStorage.getItem('amr_bookings')) || [];
+    current.push(record);
+    localStorage.setItem('amr_bookings', JSON.stringify(current));
 
-        function loadAppointments() {
-            const container = document.getElementById('appointments-container');
-            const data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
+    // Send Email via EmailJS
+    if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, record)
+            .then(function(response) {
+                console.log('EMAIL SENT SUCCESSFULLY!', response.status, response.text);
+            }, function(error) {
+                console.log('EMAIL FAILED...', error);
+            });
+    }
 
-            if (data.length === 0) {
-                container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">No active appointments found.</p>`;
-                return;
-            }
+    alert(`Appointment Confirmed! Reference: ${record.subject}. Cash payment on arrival.`);
+    document.getElementById('bookingForm').reset();
+    switchTab('appointments');
+}
 
-            container.innerHTML = data.map((item, index) => `
-                <div class="appointment-card">
-                    <div>
-                        <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${item.subject}</div>
-                        <div style="font-size:1.1rem; font-weight:700;">${item.petName} (${item.petType})</div>
-                        <div style="font-size:0.85rem; color:var(--text-muted);">
-                            📍 ${item.address} | 🕒 ${item.dateTime}<br>
-                            💵 ${item.price} (Cash on arrival)
-                        </div>
-                    </div>
-                    <button class="btn-danger" onclick="cancelAppointment(${index})">Delete / Cancel</button>
+function loadAppointments() {
+    const container = document.getElementById('appointments-container');
+    const data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
+
+    if (data.length === 0) {
+        container.innerHTML = `<p style="text-align: center; color: var(--text-muted);">No active appointments found.</p>`;
+        return;
+    }
+
+    container.innerHTML = data.map((item, index) => `
+        <div class="appointment-card">
+            <div>
+                <div style="font-size:0.8rem; color:var(--primary); font-weight:700;">${item.subject}</div>
+                <div style="font-size:1.1rem; font-weight:700;">${item.petName} (${item.petType})</div>
+                <div style="font-size:0.85rem; color:var(--text-muted);">
+                    📍 ${item.address} | 🕒 ${item.dateTime}<br>
+                    💵 ${item.price} (Cash on arrival)
                 </div>
-            `).join('');
-        }
+            </div>
+            <button class="btn-danger" onclick="cancelAppointment(${index})">Delete / Cancel</button>
+        </div>
+    `).join('');
+}
 
-        function cancelAppointment(idx) {
-            if (confirm("Cancel this appointment?")) {
-                let data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
-                data.splice(idx, 1);
-                localStorage.setItem('amr_bookings', JSON.stringify(data));
-                loadAppointments();
-            }
-        }
+function cancelAppointment(idx) {
+    if (confirm("Cancel this appointment?")) {
+        let data = JSON.parse(localStorage.getItem('amr_bookings')) || [];
+        data.splice(idx, 1);
+        localStorage.setItem('amr_bookings', JSON.stringify(data));
+        loadAppointments();
+    }
+}
     </script>
 </body>
 </html>
